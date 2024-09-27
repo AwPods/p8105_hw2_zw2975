@@ -1,0 +1,14 @@
+---
+title: "p8105_hw2_zw2975"
+author: "Zhiyu Wei"
+date: 2024-09-10
+output: html_document
+---
+
+### Setup
+```{r setup, include = FALSE}
+library(tidyverse)
+```
+
+
+### Problem 1
