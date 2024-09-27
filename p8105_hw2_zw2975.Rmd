@@ -2,7 +2,7 @@
 title: "p8105_hw2_zw2975"
 author: "Zhiyu Wei"
 date: 2024-09-10
-output: html_document
+output: github_document
 ---
 
 ### Setup
@@ -12,3 +12,9 @@ library(tidyverse)
 
 
 ### Problem 1
+
+#### Importing data 
+```{r dataset}
+
+```
+
