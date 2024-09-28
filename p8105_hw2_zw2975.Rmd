@@ -1,7 +1,7 @@
 ---
 title: "p8105_hw2_zw2975"
 author: "Zhiyu Wei"
-date: 2024-09-10
+date: 2024-09-28
 output: github_document
 ---
 
@@ -46,10 +46,11 @@ a = NYsubway %>%
 # How many stations are ADA compliant?
 b = NYsubway %>%
   filter(ada = TRUE) %>%
+  distinct(station_name, line) %>%
   count()
 
 # What proportion of station entrances / exits without vending allow entrance?
-NYsubway %>%
+proportion_allows_entry = NYsubway %>%
   filter(vending == FALSE) %>%  # filter our no vending
   summarise(proportion_allows_entry = mean(entry == TRUE))  # calculate the proportion
 
@@ -73,7 +74,7 @@ NYroute <-
 # How many distinct stations serve the A train? 
 c = NYroute %>%
   filter(route == "A")  %>%
-  distinct (station_name) %>%
+  distinct (station_name,line) %>%
   count()
 
 # Of the stations that serve the A train, how many are ADA compliant?
@@ -82,7 +83,7 @@ A_train <- NYroute %>%
 
 d = A_train %>%
   filter(ada == "TRUE") %>%
-  distinct(station_name) %>%
+  distinct(station_name,line) %>%
   count() # then count the distinct number after filter
 
 ```
@@ -90,13 +91,16 @@ d = A_train %>%
 There are `r a` distinct stations.
 
 #### How many stations are ADA compliant?
+There are `r b` stations that are ADA compliant.
 
 #### What proportion of station entrances / exits without vending allow entrance?
+`r proportion_allows_entry` of all station entrances / exits allow entrances without vending.
 
 #### How many distinct stations serve the A train? 
+There are `r c` distinct stations serve the A train. 
 
 #### Of the stations that serve the A train, how many are ADA compliant?
-
+There are `r d` stations that are ADA compliant out of the stations that serve the A train. 
 
 ## Problem 2
 ```{r}
