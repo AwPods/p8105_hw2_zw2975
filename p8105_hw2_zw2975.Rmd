@@ -5,7 +5,6 @@ date: 2024-09-28
 output: github_document
 ---
 
-## Setup
 ```{r setup, include = FALSE}
 library(tidyverse)
 library(dplyr)
@@ -168,10 +167,14 @@ Total weight collected of trash collected by Professor Trash Wheel was `r total_
 Total number of cigarette butts colleced by Gwynnda in June of 2022 was `r total_cigarette_butts`.
 
 ## Problem 3
-```{r import dataset 3}
+```{r import dataset 3, eval = FALSE}
 bakers = read_csv(file = "./gbb_datasets/bakers.csv")
 bakes = read_csv(file = "./gbb_datasets/bakes.csv")
-results = read_csv(file = "./gbb_datasets/results.csv")
+results = read_csv(file = "./gbb_datasets/results.csv") 
+# column names for this dataset are on second row. 
+colnames(results)<-results[2,]
+# since both the first and second rows have no valid entries, we only keep the rest 
+results <- results[3:1138,]
 viewers =read_csv(file = "./gbb_datasets/viewers.csv")
 ```
 
