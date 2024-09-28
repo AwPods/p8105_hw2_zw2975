@@ -106,10 +106,21 @@ There are `r d` stations that are ADA compliant out of the stations that serve t
 ```{r import dataset 2}
 library(readxl) # need this package to read excel file
 
-TrashWheel = read_excel("./202309 Trash Wheel Collection Data.xlsx")
+TrashWheel = read_excel("./202309 Trash Wheel Collection Data.xlsx") %>%
+  select(-15, -16) #variables "15" and "16" doesn't make sense so I excluded them. 
+
+TrashWheel = janitor::clean_names(TrashWheel) %>% #cleaned variable names.
+  filter(!is.na(dumpster)) %>% #omit rows that do not include dumpster-specific data
+mutate(sports_balls = as.integer(sports_balls)) #round the number of sports balls to integers and convert to an integer variable 
+```
+#### Report on TrashWheel dataset
+
+
+```{r problem 2 questions}
+
 
 ```
-
+#### For available data, what was the total weight of trash collected by Professor Trash Wheel? What was the total number of cigarette butts collected by Gwynnda in June of 2022?
 
 ```
 
