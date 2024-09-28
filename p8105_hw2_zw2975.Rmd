@@ -150,13 +150,21 @@ I cleaned the names of all variables in the 3 datasets before merging so that th
 `TrashWheel` dataset has variables `dumpster`, `month`, `year`, `date`,`weight_tons`, `volume_cubic_yards`, `plastic_bottles`, `polystyrene`, `cigarette_butts`, `glass_bottles`, `plastic_bags`, `wrappers`, `sports_balls`, `homes_powered`, and `sheet`, where the variable `sheet` indicates which dataset is the observation originally from. 
 
 ```{r problem 2 questions}
+# For available data, what was the total weight of trash collected by Professor Trash Wheel? 
+total_weight_trash <- TrashWheel %>%
+  filter(sheet == "prof") %>%
+  summarise(total_weight_trash = sum(weight_tons))
 
+# What was the total number of cigarette butts collected by Gwynnda in June of 2022?
+total_cigarette_butts <- Gwynnda %>%
+  filter(sheet == "Gwynnda", year == 2022, month == "June") %>%
+  summarise(total_cigarette_butts = sum(cigarette_butts))
 
 ```
 #### For available data, what was the total weight of trash collected by Professor Trash Wheel? 
+Total weight collected of trash collected by Professor Trash Wheel was `r total_weight_trash` tons.
 
 #### What was the total number of cigarette butts collected by Gwynnda in June of 2022?
-
-
+Total number of cigarette butts colleced by Gwynnda in June of 2022 was `r total_cigarette_butts`.
 
 
