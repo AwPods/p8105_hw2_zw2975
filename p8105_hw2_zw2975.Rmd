@@ -14,7 +14,7 @@ library(dplyr)
 
 ## Problem 1
 
-```{r dataset}
+```{r import dataset 1}
 # Import data
 NYsubway = read_csv(file = "./NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
 # clean variable names
@@ -103,7 +103,10 @@ There are `r c` distinct stations serve the A train.
 There are `r d` stations that are ADA compliant out of the stations that serve the A train. 
 
 ## Problem 2
-```{r}
+```{r import dataset 2}
+library(readxl) # need this package to read excel file
+
+TrashWheel = read_excel("./202309 Trash Wheel Collection Data.xlsx")
 
 ```
 
