@@ -211,7 +211,7 @@ results <- results
 
 # merge the datasets by the column "baker"
 bake <- inner_join (results, bake, by = "baker") %>%
-  select(-series.x, -episode.x) %>%
+  select(-series.x, -episode.x) %>% # only keep the episode and series numbers from the valid dataset. 
   rename(series = series.y) %>%
   rename(episode = episode.y)
 
@@ -230,6 +230,7 @@ Before merging, I thought through the order of merging since the 3 datasets do n
 
 One problem I encountered was that after merging the pre-merged dataset, bake, with the results dataset, the entries went up to over 4000. Then I realized I could tidy the dataset by only keeping the distinct bakes since every bakes is recorded for every bakers. 
 
+The final dataset now has `r nrow(bake)` rows and `r ncol(bake)` columns. The dataset includes important variables such as `series`, `episode`, `baker`, and `signature bake` etc. 
 
 ```{r viewers dataset cleaning and presenting}
 # Import, clean, tidy, and organize the viewership data in viewers.csv. Show the first 10 rows of this dataset. 
