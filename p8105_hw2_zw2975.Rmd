@@ -185,13 +185,21 @@ results<-janitor::clean_names(results)
 ```
 
 #### clean datsets and merge
-```{r problem 3 cleaning}
+```{r problem 3 cleaning, warning = FALSE}
 # Extrapolate the first names from the dataset bakers
 bakers = bakers %>%
   mutate(baker = word(baker_name, 1))
 
 # merge bakers to bakes
 bake <- left_join(bakes, bakers,by =c("baker","series" )) 
+
+# Now if I anti join the bake and bakers dataset, I should get an empty dataset
+bake_anti_1 <- anti_join(bake, bakers)
+head(bake_anti_1)
+
+# same thing with bake and bakes
+bake_anti_2 <- anti_join(bake, bakes)
+head(bake_anti_2)
 
 # change results dataset's series to double
 results <- results %>%
@@ -207,9 +215,20 @@ bake <- inner_join (results, bake, by = "baker") %>%
   rename(series = series.y) %>%
   rename(episode = episode.y)
 
+# there are many repetitive rows, so the logic is to only keep rows with distinct signature_bake
 bake <- bake %>%
   distinct(signature_bake, .keep_all = TRUE)
+
+# export data
+write.csv(bake, "gbb_show.csv")
+
 ```
+#### summary of cleaning process
+I cleaned up the names for all the datasets to have a better merging process. For the results dataset, I used the 2nd row as the column name for the dataset and only keep the entries from the 3rd row since the first 2 rows of entries do not make any sense. 
+
+Before merging, I thought through the order of merging since the 3 datasets do not have the same numbers of rows. My final decision was to merge bakers and bakes first and then use this merged dataset to merge with the results dataset since the results dataset has the biggest size in terms of number of rows. After merging the first 2 datasets, bake and bakers, I checked on how well the datasets were merged by using `anti_join`. Both datasets created by `anti_join` function have no entries, which means no unmatched entries were found. 
+
+One problem I encountered was that after merging the pre-merged dataset, bake, with the results dataset, the entries went up to over 4000. Then I realized I could tidy the dataset by only keeping the distinct bakes since every bakes is recorded for every bakers. 
 
 
 ```{r viewers dataset cleaning and presenting}
