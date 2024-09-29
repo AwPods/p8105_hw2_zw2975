@@ -16,6 +16,7 @@ library(dplyr)
 ```{r import dataset 1}
 # Import data
 NYsubway = read_csv(file = "./NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
+
 # clean variable names
 NYsubway = janitor::clean_names(NYsubway) %>%
   select(line, station_name, station_latitude, station_longitude, route1, route2, route3, route4, route5, route6, route7, route8, route9, route10, route11, entry, vending, entrance_type, ada, ada_notes) %>%
@@ -167,14 +168,65 @@ Total weight collected of trash collected by Professor Trash Wheel was `r total_
 Total number of cigarette butts colleced by Gwynnda in June of 2022 was `r total_cigarette_butts`.
 
 ## Problem 3
-```{r import dataset 3, eval = FALSE}
+```{r import dataset 3}
 bakers = read_csv(file = "./gbb_datasets/bakers.csv")
+bakers <- janitor::clean_names(bakers)
+
 bakes = read_csv(file = "./gbb_datasets/bakes.csv")
-results = read_csv(file = "./gbb_datasets/results.csv") 
+bakes<-janitor::clean_names(bakes)
+
+results = read_csv(file = "./gbb_datasets/results.csv")
 # column names for this dataset are on second row. 
 colnames(results)<-results[2,]
 # since both the first and second rows have no valid entries, we only keep the rest 
 results <- results[3:1138,]
-viewers =read_csv(file = "./gbb_datasets/viewers.csv")
+results<-janitor::clean_names(results)
+#cleaned all column names in all 3 datasets
 ```
+
+#### clean datsets and merge
+```{r problem 3 cleaning}
+# Extrapolate the first names from the dataset bakers
+bakers = bakers %>%
+  mutate(baker = word(baker_name, 1))
+
+# merge bakers to bakes
+bake <- left_join(bakes, bakers,by =c("baker","series" )) 
+
+# change results dataset's series to double
+results <- results %>%
+  mutate(series = as.double(series)) %>%
+  mutate(episode = as.double(episode))
+
+# First extrapolate the non-NA entries for results
+results <- results 
+
+# merge the datasets by the column "baker"
+bake <- inner_join (results, bake, by = "baker") %>%
+  select(-series.x, -episode.x) %>%
+  rename(series = series.y) %>%
+  rename(episode = episode.y)
+
+bake <- bake %>%
+  distinct(signature_bake, .keep_all = TRUE)
+```
+
+
+```{r viewers dataset cleaning and presenting}
+# Import, clean, tidy, and organize the viewership data in viewers.csv. Show the first 10 rows of this dataset. 
+viewers =read_csv(file = "./gbb_datasets/viewers.csv")
+viewers<-janitor::clean_names(viewers)
+
+viewers %>% 
+  head(n=10)
+
+# What was the average viewership in Season 1? 
+avg_1 <- viewers %>%
+  summarise(mean_season_1 = mean(series_1, na.rm = TRUE))
+# In Season 5?
+avg_5 <- viewers %>%
+  summarise(mean_season_5 = mean(series_5, na.rm = TRUE))
+```
+#### What was the average viewership in Season 1? In season 5?
+For season 1, the mean viewership was `r avg_1` million and season 5 had an average of `r avg_5` millions of viewers.
 
