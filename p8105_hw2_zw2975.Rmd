@@ -108,7 +108,7 @@ library(readxl) # need this package to read excel file
 
 # Import and clean for Mr. Trash wheel
 
-MrTrashWheel = read_excel("./202309 Trash Wheel Collection Data.xlsx", sheet = 1) %>%
+MrTrashWheel = read_excel("./202409 Trash Wheel Collection Data.xlsx", sheet = 1) %>%
   select(-15, -16) #variables "15" and "16" doesn't make sense so I excluded them. 
 
 MrTrashWheel = janitor::clean_names(MrTrashWheel) %>% #cleaned variable names.
@@ -116,13 +116,13 @@ MrTrashWheel = janitor::clean_names(MrTrashWheel) %>% #cleaned variable names.
 mutate(sports_balls = as.integer(sports_balls)) #round the number of sports balls to integers and convert to an integer variable 
 
 # Import and clean for professor trash wheel
-Prof = read_excel("./202309 Trash Wheel Collection Data.xlsx", sheet = 2)
+Prof = read_excel("./202409 Trash Wheel Collection Data.xlsx", sheet = 2)
 
 Prof = janitor::clean_names(Prof) %>% #cleaned variable names.
   filter(!is.na(dumpster)) #omit rows that do not include dumpster-specific data
 
 # Import and clean for Gwynnda
-Gwynnda = read_excel("./202309 Trash Wheel Collection Data.xlsx", sheet = 4) 
+Gwynnda = read_excel("./202409 Trash Wheel Collection Data.xlsx", sheet = 4) 
 
 Gwynnda = janitor::clean_names(Gwynnda) %>% #cleaned variable names.
   filter(!is.na(dumpster)) #omit rows that do not include dumpster-specific data
